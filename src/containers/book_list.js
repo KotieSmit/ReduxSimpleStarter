@@ -1,13 +1,18 @@
 import React, { Component} from 'react';
+import {connect} from 'react-redux'
+import { selectBook} from '../actions/index'
+import { bindActionCreators } from 'redux'
 
-import {connect} from 'react-redux';
-
- class Booklist extends Component{
+ class BookList extends Component{
 
     renderList(){
         return this.props.books.map((book) => {
             return (
-                <li key={book.title} className="list-group-item"> {book.title} </li>
+                <li 
+                    key={book.title} 
+                    onClick={() => this.props.selectBook(book)}
+                    className="list-group-item"> {book.title} 
+                </li>
             );
          });
     }
@@ -23,9 +28,21 @@ import {connect} from 'react-redux';
 
 
 function mapStateToProps(state){
+    // Whatever is returned will show up as props insiide the bookList
     return{
       books: state.books
     };
   }
+
+  // Anything returned from this function, will end up as Props
+  // on the bookList container
+  function mapDispatchToProps(dispatch)
+  {
+      // whwnever selectBook is called, the passed to all reducers
+    return bindActionCreators({selectBook: selectBook}, dispatch);
+  }
   
-  export default connect(mapStateToProps)(Booklist);
+  // Promote bookList fro component to a container - it needs to know
+  // about this new dispatch method, selectBook.  Make it available
+  // as a Prop
+  export default connect(mapStateToProps, mapDispatchToProps)(BookList);
