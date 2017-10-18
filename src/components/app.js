@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import Booklist from '../containers/book_list';
+import {connect} from 'react-redux';
 
-export default class App extends Component {
+export default  class App extends Component {
   render() {
     return (
-      <div>React simple starter</div>
+      <div>
+        <Booklist/>
+      </div>
     );
   }
 }
+
